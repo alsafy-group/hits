@@ -331,6 +331,30 @@ task('geo', 'pin', L('Clock in by location', 'تسجيل الحضور بالمو
   ('Attendance Tracking', 'متابعة الحضور والإنصراف', False, 'That only lists records.', 'تعرض التسجيلات فقط.'),
   ('My Attendance', 'تفاصيل الحضور والإنصراف', False, 'That shows totals; it does not record.', 'تعرض الإجماليات ولا تسجّل.')]))
 
+# =================================== EMPLOYEE · MY PAYSLIP (added 29 Oct) ===================================
+PAY_HOME_EN = 'en_emp_60'; PAY_HOME_AR = 'ar_emp_60'
+task('payslip', 'wallet', L('See your payslip', 'عرض شيك المرتب'), L('I want to check my salary', 'أريد مراجعة مرتبي'),
+     L(['Read your', 'payslip.'], ['اقرأ', 'شيك مرتبك.']), L('Shows your net pay for a month, and every amount added to it or taken from it.', 'يعرض صافي مرتبك عن الشهر، وكل ما أُضيف إليه أو خُصم منه.'),
+     L('You can open your payslip for any month and read it.', 'تستطيع فتح شيك مرتبك لأي شهر وقراءته.'), L('Home › My Payslip', 'الرئيسية › شيك المرتب'), [
+  S('ps-1', V(PAY_HOME_EN, tile(0, 0, [26]), 'Tap', 'My Payslip.', 'On the home page, tap My Payslip.'),
+            V(PAY_HOME_AR, tile(3, 0, [26]), 'اضغط', 'شيك المرتب.', 'من الصفحة الرئيسية، اضغط شيك المرتب.')),
+  S('ps-2', V('en_emp_61', hs(5.4, 13.3, 50, 5), 'Choose', 'the month.', 'The payslip opens on the current month. For another month, change the year (Y) and the month (M).'),
+            V('ar_emp_61', hs(45.7, 13.3, 50, 5), 'اختر', 'الشهر.', 'يفتح الشيك على الشهر الحالي. لعرض شهر آخر، غيِّر السنة (س) والشهر (ش).')),
+  S('ps-3', V('en_emp_61', hs(62, 13.3, 32, 5), 'Load', 'the payslip.', 'R# is the payroll run number. Tap ⟳ to load the payslip for the month you chose.'),
+            V('ar_emp_61', hs(5, 13.3, 32, 5), 'اعرض', 'الشيك.', 'ر# هو رقم مسير الرواتب. اضغط ⟳ لعرض شيك الشهر الذي اخترته.')),
+  S('ps-4', V('en_emp_61', hs(2.7, 21.8, 94.6, 5.8), 'Net Payroll', 'is what you get.', 'Net Payroll is your final pay for the month, after deductions.'),
+            V('ar_emp_61', hs(2.7, 21.8, 94.6, 5.8), 'صافى المرتب', 'هو ما تتقاضاه.', 'صافى المرتب هو مرتبك النهائي عن الشهر بعد الاستقطاعات.')),
+  S('ps-5', V('en_emp_62', hs(2.7, 28.4, 94.6, 31), 'Open', 'Earning.', 'Tap Earning to see everything added to your pay, such as basic salary, allowances and extra days.', verify='confirm'),
+            V('ar_emp_62', hs(2.7, 28.4, 94.6, 31), 'افتح', 'الاستحقاقات.', 'اضغط الاستحقاقات لترى كل ما أُضيف إلى مرتبك، مثل المرتب الأساسي والبدلات والأيام الزائدة.', verify='confirm')),
+  S('ps-6', V('en_emp_62', hs(2.7, 60, 94.6, 18.4), 'Open', 'Deduction.', 'Tap Deduction to see what was taken off, such as insurance and taxes.'),
+            V('ar_emp_62', hs(2.7, 60, 94.6, 18.4), 'افتح', 'الاستقطاعات.', 'اضغط استقطاعات لترى ما خُصم من مرتبك، مثل التأمين والضرائب.')),
+ ], Q(('Which line shows the amount you actually receive for the month?', 'أي سطر يعرض المبلغ الذي تتقاضاه فعلًا عن الشهر؟'), [
+  ('Net Payroll', 'صافى المرتب', True, 'Net Payroll is your pay after deductions.', 'صافى المرتب هو مرتبك بعد الاستقطاعات.'),
+  ('Earning', 'الاستحقاقات', False, 'Earning is the total before deductions.', 'الاستحقاقات هي الإجمالي قبل الاستقطاعات.'),
+  ('Basic Salary', 'المرتب الأساسي', False, 'Basic Salary is only one item inside Earning.', 'المرتب الأساسي بند واحد داخل الاستحقاقات.'),
+  ('Deduction', 'الاستقطاعات', False, 'Deduction is what is taken off your pay.', 'الاستقطاعات هي ما يُخصم من مرتبك.')]),
+ tips=[TIP('ps-6', 'Net Payroll = Earning − Deduction.', 'صافى المرتب = الاستحقاقات − الاستقطاعات.')])
+
 # =================================== EMPLOYEE · MY DATA ===================================
 task('changes-request', 'list', L('Request a change to your data', 'طلب تغيير بياناتك'), L('I need to update my records', 'أريد تحديث بياناتي'),
      L(['Request a', 'data change.'], ['اطلب', 'تغيير بياناتك.']), L("Sends a change request — for example children's birth certificates — for approval.", 'يرسل طلب تغيير، مثل شهادات ميلاد الأبناء، للاعتماد.'),
@@ -490,8 +514,8 @@ MISSIONS = [
  {'id': 'mytime', 'roles': ['employee'], 'icon': 'clock', 'title': L('My time & attendance', 'وقتي وحضوري'),
   'outcome': L('Permissions, missing times, attendance and clock-in.', 'الأذونات والقراءات الناقصة والحضور والتسجيل.'),
   'tasks': ['my-permissions', 'perm-request', 'perm-history', 'tk-request', 'my-attendance', 'att-tracking', 'geo']},
- {'id': 'mydata', 'roles': ['employee'], 'icon': 'list', 'title': L('My data', 'بياناتي'),
-  'outcome': L('Request a change to your records.', 'اطلب تغييرًا في بياناتك.'), 'tasks': ['changes-request']},
+ {'id': 'mydata', 'roles': ['employee'], 'icon': 'wallet', 'title': L('My pay & data', 'مرتبي وبياناتي'),
+  'outcome': L('Read your payslip and request a change to your records.', 'اقرأ شيك مرتبك، واطلب تغييرًا في بياناتك.'), 'tasks': ['payslip', 'changes-request']},
  {'id': 'approvals', 'roles': ['manager'], 'icon': 'check-badge', 'title': L("Approve your team's requests", 'اعتمِد طلبات فريقك'),
   'outcome': L('See what is waiting for you and decide on it.', 'اعرف ما ينتظر قرارك، واتخذ القرار.'), 'tasks': ['notifications', 'approve-perms', 'leave-approvals', 'tk-approvals']},
  {'id': 'team', 'roles': ['manager'], 'icon': 'users', 'title': L('Keep an eye on your team', 'تابِع فريقك'),
@@ -560,8 +584,8 @@ for t in T.values():
 
 BASE['glossary'] = [g for g in BASE['glossary'] if g.get('id') not in ('run-no', 'delegation') and 'Run No' not in g['term']['en'] and 'elegation' not in g['term']['en']]
 UI = BASE['ui']
-UI['en'].update({'home': 'Home', 'coming': 'Coming soon: My Payslip.', 'shownIn': 'Shown in: {lang}'})
-UI['ar'].update({'home': 'الرئيسية', 'coming': 'قريبًا: كشف الراتب.', 'shownIn': 'متاح في: {lang}'})
+UI['en'].update({'home': 'Home', 'coming': '', 'shownIn': 'Shown in: {lang}'})
+UI['ar'].update({'home': 'الرئيسية', 'coming': '', 'shownIn': 'متاح في: {lang}'})
 used = sorted({v['screen'] for t in T.values() for s in t['steps'] for v in (s.get('en'), s.get('ar')) if v})
 data = {'version': '4.0', 'helpEmail': BASE['helpEmail'], 'ui': UI, 'missions': MISSIONS, 'tasks': T,
         'glossary': BASE['glossary'], 'help': BASE['help'], 'screens': used}

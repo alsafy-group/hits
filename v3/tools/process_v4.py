@@ -81,6 +81,23 @@ SPEC = {
 }
 PATCH = {'en_mgr_13': [((38, 377, 139, 476), (38, 253))], 'ar_mgr_09': [((448, 377, 552, 479), (448, 252))], 'ar_mgr_10': [((448, 377, 552, 479), (448, 252))]}
 
+# added 29 Oct: My Payslip (dummy names and dummy amounts; Net = Earning - Deduction still holds)
+def NUM(x0, x1, y, v, al, sz=29): return ((x0, y - 19, x1, y + 19), [v], al, sz)
+EN_ITEMS = ['15000.00', '500.00', '120.00', '1850.00', '2500.00', '0.25']; EN_DED = ['120.00', '13.50', '1850.00']
+YI = [573, 640, 706, 772, 839, 905]; YD = [1074, 1140, 1207]
+PAY_EN = [NUM(540, 694, 388, '17986.75', 'right', 33), NUM(500, 652, 490, '19970.25', 'right', 33)]
+PAY_AR = [NUM(46, 200, 388, '17986.75', 'left', 33), NUM(88, 240, 490, '19970.25', 'left', 33)]
+SPEC.update({
+ 'en_emp_60': [((190, 266, 640, 350), ['Hi, Sample', 'Employee'], 'left', 33)],
+ 'ar_emp_60': [((240, 266, 552, 352), ['مرحبا،', 'موظف تجريبي'], 'right', 33)],
+ 'en_emp_61': PAY_EN + [NUM(500, 652, 592, '1983.50', 'right', 33)],
+ 'en_emp_62': PAY_EN + [NUM(500, 652, 990, '1983.50', 'right', 33)] + [NUM(535, 668, y, v, 'right') for y, v in zip(YI, EN_ITEMS)]
+              + [NUM(535, 668, y, v, 'right') for y, v in zip(YD, EN_DED)] + [NUM(218, 380, 839, '5.00 Days', 'left')],
+ 'ar_emp_61': PAY_AR + [NUM(88, 240, 592, '1983.50', 'left', 33)],
+ 'ar_emp_62': PAY_AR + [NUM(88, 240, 990, '1983.50', 'left', 33)] + [NUM(66, 215, y, v, 'left') for y, v in zip(YI, EN_ITEMS)]
+              + [NUM(66, 215, y, v, 'left') for y, v in zip(YD, EN_DED)] + [((425, 820, 560, 858), [('ايام', '5.00')], 'right', 29)],
+})
+
 def fit(im):
     im = im.resize((W0, round(im.height * W0 / im.width)), Image.LANCZOS)
     if im.height < H0:

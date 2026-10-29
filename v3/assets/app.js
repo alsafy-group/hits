@@ -83,6 +83,7 @@
     'log-in': '<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4M10 16l4-4-4-4M14 12H4"/>',
     lock: '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
     home: '<path d="M4 11.5L12 4.5l8 7M6.5 10v9.5h4.5v-5h2v5h4.5V10"/>',
+    wallet: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16.5" cy="14.5" r="1.2"/>',
     list: '<path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>',
     users: '<circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M15.5 14.6c2.6-.2 4.5 1.4 5 4.4"/>',
     route: '<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.8"/>'
@@ -204,7 +205,7 @@
         '<ul class="tlist">' + m.tasks.map(function (t, i) { return taskRow(t, i + 1); }).join('') + '</ul>' +
         '<button class="btn btn-p" data-task="' + (nx || m.tasks[0]) + '" data-m="' + m.id + '"><span>' + esc(cta) + '</span>' + ic(S.lang === 'ar' ? 'back' : 'arrow') + '</button></article>';
     });
-    html += '</section><p class="coming">' + ic('route') + '<span>' + h(U('coming')) + '</span></p><footer class="foot"><div class="row"><a class="tbtn" href="#/help">' + ic('help') + esc(U('help')) + '</a>' +
+    html += '</section>' + (U('coming') ? '<p class="coming">' + ic('route') + '<span>' + h(U('coming')) + '</span></p>' : '') + '<footer class="foot"><div class="row"><a class="tbtn" href="#/help">' + ic('help') + esc(U('help')) + '</a>' +
       (points() ? '<button class="tbtn" id="reset">' + ic('refresh') + esc(U('resetProgress')) + '</button>' : '') + '</div>' +
       ((TR.departments || []).length ? '<label class="dept row">' + esc(U('department')) + ' <select id="dept"><option value="">' + esc(U('departmentNone')) + '</option>' + TR.departments.map(function (d) { return '<option' + (S.dept === d ? ' selected' : '') + '>' + esc(d) + '</option>'; }).join('') + '</select></label>' : '') +
       '<p>' + h(U('privacy')) + '</p></footer></div>';
