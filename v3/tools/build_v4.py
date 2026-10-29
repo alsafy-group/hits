@@ -520,6 +520,8 @@ MISSIONS = [
   'outcome': L('See what is waiting for you and decide on it.', 'اعرف ما ينتظر قرارك، واتخذ القرار.'), 'tasks': ['notifications', 'approve-perms', 'leave-approvals', 'tk-approvals']},
  {'id': 'team', 'roles': ['manager'], 'icon': 'users', 'title': L('Keep an eye on your team', 'تابِع فريقك'),
   'outcome': L("Past decisions, change requests and your team's records.", 'القرارات السابقة وطلبات التغيير وسجلّات فريقك.'), 'tasks': ['my-profile', 'find-perms', 'changes-approvals', 'team-records']},
+ {'id': 'mypay', 'roles': ['manager'], 'icon': 'wallet', 'title': L('My pay', 'مرتبي'),
+  'outcome': L('Read your own payslip.', 'اقرأ شيك مرتبك.'), 'tasks': ['payslip']},
 ]
 
 for t in T.values():

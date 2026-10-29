@@ -34,7 +34,7 @@
     if (n >= 3 && n <= 10) return num(n) + ' ' + f[2];
     return num(n) + ' ' + f[0];
   }
-  function fmt(s, m) { return s.replace(/\{(\w+)(?:#([^}]+))?\}/g, function (_, k, noun) { return noun ? arCount(m[k], noun) : (typeof m[k] === 'number' ? num(m[k]) : m[k]); }); }
+  function fmt(s, m) { return String(s).replace(/\{(\w+)(?:#([^}]+))?\}/g, function (_, k, noun) { return noun ? arCount(m[k], noun) : (typeof m[k] === 'number' ? num(m[k]) : m[k]); }).replace(/\b1 (stop|step|pt|point|route)s\b/g, '1 $1'); }
   function pct(n) { return S.lang === 'ar' ? new Intl.NumberFormat('ar-EG', { style: 'percent' }).format(n / 100) : n + '%'; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   // Isolate Latin runs (HITS labels) inside Arabic text so punctuation stays put.
