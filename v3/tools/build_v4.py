@@ -597,3 +597,6 @@ for lg in ('en', 'ar'):
         n = [k for m in MISSIONS if role in m['roles'] for k in m['tasks'] if lg in T[k]['langs']]
         print(lg, role, len(n), 'stops')
 print('screens used', len(used), 'steps', sum(1 for t in T.values() for s in t['steps'] for v in (s.get('en'), s.get('ar')) if v))
+
+# keep index.html asset versions in step with the files
+import runpy; runpy.run_path(os.path.join(ROOT, 'tools', 'stamp.py'))

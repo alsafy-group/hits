@@ -257,6 +257,7 @@
       '<img class="frame" src="' + A('assets/img/phone-frame.webp') + '" alt=""><button class="zoomchip" id="zoomchip">' + ic('expand') + esc(U('tapToEnlarge')) + '</button></div>';
   }
   function taskView() {
+    if (V && V.t) preloadTask(V.t, V.phase === 'steps' ? V.i : 0);
     var desk = innerWidth >= 900; V.desk = desk;
     var html = '<div class="task phase-' + V.phase + '"><div class="tgrid">' +
       (desk ? '<div class="stagecol"><div class="stagebox" id="sbox">' + stageHtml() + '</div></div>' : '') +
@@ -348,7 +349,22 @@
   }
 
   /* ---------- animated phone ---------- */
+  /* screens load before they animate in (slow mobile networks) */
+  var PRE = {};
+  function pre(src) { var im = PRE[src]; if (!im) { im = PRE[src] = new Image(); im.decoding = 'async'; im.src = src; } return im; }
+  function scrSrc(st) { return A('assets/screens_v4/' + st.screen + '.webp'); }
+  function preloadTask(t, from) { (t.steps || []).slice(from || 0).forEach(function (st) { pre(scrSrc(st)); }); }
+  function ready(im) { return im.complete && im.naturalWidth > 0; }
   function showScreen(st, dir, still) {
+    var slot = $('#slot'); if (!slot) return;
+    var im = pre(scrSrc(st)), tok = V.showTok = (V.showTok || 0) + 1;
+    if (ready(im)) { slot.classList.remove('busy'); return showScreenNow(st, dir, still); }
+    slot.classList.add('busy');
+    var go = function () { if (V.showTok !== tok || !$('#slot')) return; clearTimeout(tm); $('#slot').classList.remove('busy'); showScreenNow(st, dir, still); };
+    var tm = setTimeout(go, 6000);
+    im.addEventListener('load', go, { once: true }); im.addEventListener('error', go, { once: true });
+  }
+  function showScreenNow(st, dir, still) {
     var slot = $('#slot'); if (!slot) return;
     if (innerWidth >= 900) deskLayout();
     var src = A('assets/screens_v4/' + st.screen + '.webp');
